@@ -11,9 +11,13 @@ public interface UserService {
 
     List<User> findAll();
 
+    void deleteById(Long id);
+
     User findById(int id);
 
 
 
     void deleteById(int id);
+
+    User findById(Long id);
 }

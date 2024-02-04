@@ -3,6 +3,8 @@ package com.academicproject.moomin.realstates.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -19,6 +21,10 @@ public class User {
     private String lastname;
     private String contact;
     private String address;
+    @OneToMany
+    private List<Property> property;
+    @OneToOne
+    private  Offer offer;
 
 
 }
