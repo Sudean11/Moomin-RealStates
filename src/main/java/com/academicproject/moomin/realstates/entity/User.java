@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "test",sequenceName = "product_id_seq")
+
     private int user_id;
 
     private String email;

@@ -1,4 +1,4 @@
-package com.academicproject.moomin.realstates.Controller;
+package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.User;
 import com.academicproject.moomin.realstates.service.UserService;
