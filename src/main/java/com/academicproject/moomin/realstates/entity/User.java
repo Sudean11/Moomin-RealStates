@@ -3,6 +3,8 @@ package com.academicproject.moomin.realstates.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -19,7 +21,9 @@ public class User {
     private String contact;
     private String address;
 
-
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
 
 
