@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Entity
 @NoArgsConstructor
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class Offer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
     @ManyToOne
