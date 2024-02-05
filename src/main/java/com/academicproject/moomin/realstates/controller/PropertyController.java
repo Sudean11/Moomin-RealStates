@@ -32,19 +32,22 @@ public class PropertyController {
     ){
         return propertyService.findAll(type,area,zip,state,city);
     }
+
     @GetMapping("/{id}")
     public Optional<Property> getPropertyById(@PathVariable Long id){
         return propertyService.findById(id);
     }
+
     @PostMapping
     public void saveProperty(@RequestBody Property property){
-
         propertyService.save(property);
     }
+
     @PutMapping("/{id}")
     public void updateProperty(@RequestBody Property property){
         propertyService.update(property);
     }
+
     @DeleteMapping("/{id}")
     public  void deleteProperty(@PathVariable long id){
         propertyService.deleteById(id);
