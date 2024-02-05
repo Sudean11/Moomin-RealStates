@@ -15,6 +15,7 @@ public interface UserService {
 
     User findById(int id);
 
+    void saveUser(User user);
 
 
 
