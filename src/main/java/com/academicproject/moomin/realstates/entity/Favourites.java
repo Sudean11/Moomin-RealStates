@@ -13,9 +13,14 @@ public class Favourites {
     @GeneratedValue
     @Id
     private Long id;
-    @OneToOne
-    private User user;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+            name = "favourites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favourite_id"))
+    @Column
+    private List<User> user;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Column
     private List<Property> property;
 }
