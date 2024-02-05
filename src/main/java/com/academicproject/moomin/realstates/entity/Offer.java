@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class Offer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

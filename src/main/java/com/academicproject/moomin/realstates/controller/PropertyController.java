@@ -32,6 +32,7 @@ public class PropertyController {
     ){
         return propertyService.findAll(type,area,zip,state,city);
     }
+
     @GetMapping("/{id}")
     public Optional<Property> getPropertyById(@PathVariable Long id){
         return propertyService.findById(id);
