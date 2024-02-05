@@ -6,6 +6,7 @@ import com.academicproject.moomin.realstates.repo.LocationRepo;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,55 +23,38 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
 
-    @Override
     public List<Property> findAll(String type, String area, String zip, String state, String city) {
-        if (type.equals("") && area.equals("") && state.equals("")) {
-            if (!city.equals("") && !zip.equals("") && !state.equals("")) {
-                // Case: City, zip, and state are provided, return properties in matching city, zip, and state
-                return propertyRepo.findByLocation_CityContainingAndLocation_ZipCodeContainingAndLocation_StateContaining(city, zip, state);
-            } else if (!city.equals("") && !zip.equals("")) {
-                // Case: Both city and zip are provided, return properties in matching city and zip
-                return propertyRepo.findByLocation_CityContainingAndLocation_ZipCodeContaining(city, zip);
-            } else if (!city.equals("") && !state.equals("")) {
-                // Case: City and state are provided, return properties in matching city and state
-                return propertyRepo.findByLocation_CityContainingAndLocation_StateContaining(city, state);
-            } else if (!city.equals("") && !area.equals("")) {
-                // Case: City and area are provided, return properties in matching city and area
-                return propertyRepo.findByLocation_CityContainingAndAreaContaining(city, area);
-            } else if (!area.equals("") && !zip.equals("")) {
-                // Case: Area and zip are provided, return properties in matching area and zip
-                return propertyRepo.findByAreaContainingAndLocation_ZipCodeContaining(area, zip);
-            } else if (!type.equals("") && !zip.equals("")) {
-                // Case: Type and zip are provided, return properties with matching type and zip
-                return propertyRepo.findByTypeContainingAndLocation_ZipCodeContaining(type, zip);
-            } else if (!type.equals("") && !state.equals("")) {
-                // Case: Type and state are provided, return properties with matching type and state
-                return propertyRepo.findByTypeContainingAndLocation_StateContaining(type, state);
-            } else if (!area.equals("") && !state.equals("")) {
-                // Case: Area and state are provided, return properties with matching area and state
-                return propertyRepo.findByAreaContainingAndLocation_StateContaining(area, state);
-            } else {
-                // Case: All parameters are empty, return all properties
-                return propertyRepo.findAll();
-            }
-        } else if (!type.equals("") && area.equals("") && state.equals("") && zip.equals("")) {
-            // Case: Only type is provided, return properties with matching type
-            return propertyRepo.findByTypeContaining(type);
-        } else if (type.equals("") && !area.equals("") && state.equals("") && zip.equals("")) {
-            // Case: Only area is provided, return properties with matching area
-            return propertyRepo.findByAreaContaining(area);
-        } else if (type.equals("") && area.equals("") && !state.equals("") && zip.equals("")) {
-            // Case: Only state is provided, return properties in matching state
-            return propertyRepo.findByLocation_StateContaining(state);
-        } else if (type.equals("") && area.equals("") && state.equals("") && !city.equals("") && zip.equals("")) {
-            // Case: Only city is provided, return properties in matching city
-            return propertyRepo.findByLocation_CityContaining(city);
-        } else if (type.equals("") && area.equals("") && state.equals("") && city.equals("") && !zip.equals("")) {
-            // Case: Only zip is provided, return properties with matching zip code
-            return propertyRepo.findByLocation_ZipCodeContaining(zip);
-        } else {
-            return null;
+        Specification<Property> specification = Specification.where(null);
+
+        if (!type.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("type"), "%" + type + "%"));
         }
+
+        if (!area.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("area"), "%" + area + "%"));
+        }
+
+        if (!zip.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("location").get("zipCode"), "%" + zip + "%"));
+        }
+
+        if (!state.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("location").get("state"), "%" + state + "%"));
+        }
+
+        if (!city.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("location").get("city"), "%" + city + "%"));
+            System.out.println(specification);
+
+        }
+
+
+        return propertyRepo.findAll(specification);
     }
 
 
