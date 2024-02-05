@@ -36,13 +36,11 @@ public class Property {
     @JsonBackReference
     private Location location;
 
-    @ManyToMany(mappedBy = "properties")
-    private List<User> users;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
-    @JsonManagedReference
-    @JoinColumn
-    @BatchSize(size = 5)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany
     private List<Offer> offers;
 }
 

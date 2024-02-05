@@ -11,16 +11,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/property")
-@RequiredArgsConstructor
 public class PropertyController {
-
     PropertyService propertyService;
-
     @Autowired
     PropertyController(PropertyService propertyService){
         this.propertyService = propertyService;
     }
-
 
     @GetMapping
     public List<Property> getProperty(

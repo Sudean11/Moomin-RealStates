@@ -25,24 +25,18 @@ public class User {
     private String contact;
     private String address;
 
-    @ManyToMany
-    @JoinTable(
-            name = "offer",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "property_id")
-    )
-    @Column(name = "status")
+    @OneToMany
     private List<Property> properties;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
-    @JsonManagedReference
-    @JoinColumn
-    @BatchSize(size = 5)
-    private List<Offer> offer;
-    @ManyToMany
-    private List<Favourites> favourites;
-
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @Fetch(FetchMode.SELECT)
+//    @JsonManagedReference
+//    @JoinColumn
+//    @BatchSize(size = 5)
+//    private List<Offer> offer;
+//    @ManyToMany
+//    private List<Favourites> favourites;
+//
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
