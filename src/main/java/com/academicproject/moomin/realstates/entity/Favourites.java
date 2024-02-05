@@ -13,9 +13,9 @@ public class Favourites {
     @GeneratedValue
     @Id
     private Long id;
-    @OneToOne(mappedBy = "user_id")
+    @OneToOne
     private User user;
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @Column
     private List<Property> property;
 }

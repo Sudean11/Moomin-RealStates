@@ -8,11 +8,18 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Override
+    public User findById(int id) {
+        return null;
+    }
 
+    @Override
+    public void deleteById(Integer id) {
+
+    }
 
     @PersistenceContext
     EntityManager entityManager;

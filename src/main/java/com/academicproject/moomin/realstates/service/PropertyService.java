@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PropertyService {
-    List<Property> findAll();
+    List<Property> findAll(String type, String area, String zip, String state, String city);
 
     Optional<Property> findById(Long id);
 
