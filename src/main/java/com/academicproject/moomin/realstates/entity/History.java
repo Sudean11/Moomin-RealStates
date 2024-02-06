@@ -12,9 +12,14 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+<<<<<<< Updated upstream
     private String action;
 
     @ManyToOne
+=======
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+>>>>>>> Stashed changes
     private User user;
 
 

@@ -43,8 +43,17 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+<<<<<<< Updated upstream
     @OneToMany(mappedBy = "user")
     @JoinColumn(name = "user_id")
+=======
+    @OneToOne
+    private Location address;
+
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+>>>>>>> Stashed changes
     private List<History> history;
 
 }
