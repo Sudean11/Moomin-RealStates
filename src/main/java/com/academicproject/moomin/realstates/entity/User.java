@@ -42,11 +42,11 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+
     @OneToOne
     private Location address;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<History> history;
 
 }

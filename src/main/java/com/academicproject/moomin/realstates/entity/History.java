@@ -12,4 +12,15 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    private String action;
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+
 }
