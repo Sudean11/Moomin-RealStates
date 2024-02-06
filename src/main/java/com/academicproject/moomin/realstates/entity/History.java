@@ -12,10 +12,4 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String action;
-
-    @ManyToOne
-    private User user;
-
-
 }

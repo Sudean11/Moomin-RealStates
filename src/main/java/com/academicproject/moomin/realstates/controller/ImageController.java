@@ -3,6 +3,11 @@ package com.academicproject.moomin.realstates.controller;
 import ch.qos.logback.core.model.Model;
 import com.academicproject.moomin.realstates.entity.Image;
 import com.academicproject.moomin.realstates.repo.ImageRepo;
+import com.academicproject.moomin.realstates.service.impl.ImgurService;
+import com.academicproject.moomin.realstates.service.impl.ImgurUploader;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +24,50 @@ public class ImageController {
     @Autowired
     private ImageRepo imageRepository;
 
+    public ImageController(ImgurService imgurService) {
+        this.imgurService = imgurService;
+    }
+
     @GetMapping("/upload")
     public String showUploadForm(Model model) {
 //        model.addAttribute("image", new Image());
         return "uploadForm";
     }
 
+    @Autowired
+    private ImgurUploader imgurUploader;
+
+    private final ImgurService imgurService;
+
+
     @PostMapping("/upload")
-    public String handleFileUpload(@ModelAttribute Image image, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
+        if (image.isEmpty()) {
+//            return new ResponseEntity<>("Image is required", HttpStatus.BAD_REQUEST);
+        return null;
+        }
+
         try {
-            image.setName(file.getOriginalFilename());
-            image.setContentType(file.getContentType());
-            image.setData(file.getBytes());
-            imageRepository.save(image);
+            byte[] imageData = image.getBytes();
+            String imgurResponse = imgurService.uploadImage(imageData);
+            return ResponseEntity.ok(extractImageLink(imgurResponse));
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return "redirect:/upload";
     }
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    private String extractImageLink(String responseBody) throws IOException {
+        JsonNode rootNode =  objectMapper.readTree(responseBody);
+        JsonNode dataNode = rootNode.get("data");
+        if (dataNode != null && dataNode.has("link")) {
+            return dataNode.get("link").asText();
+        } else {
+            throw new IOException("Failed to extract image link from Imgur response");
+        }
+    }
     @GetMapping("/images/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         Optional<Image> imageOptional = imageRepository.findById(id);

@@ -6,9 +6,11 @@ import com.academicproject.moomin.realstates.repo.LocationRepo;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,6 +100,20 @@ public class PropertyServiceImpl implements PropertyService {
         propertyRepo.save(property);
 
     }
+
+
+    @Override
+    public List<Property> getFeaturedProperty() {
+        return propertyRepo.getFeaturedProperty();
+    }
+
+    @Override
+    public List<Property> getRecentProperty() {
+        return propertyRepo.findLast8AddedProperties((Pageable) PageRequest.of(0, 8));
+    }
+
+
+
 
 
 
