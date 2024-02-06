@@ -45,12 +45,7 @@ public class User {
 
     @OneToOne
     private Location address;
-
-
-
-    @OneToOne
-    private Location address;
-
+    
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
