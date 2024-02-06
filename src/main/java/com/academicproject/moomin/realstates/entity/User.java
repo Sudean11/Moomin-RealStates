@@ -10,7 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import java.util.List;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "users")
 @Data
 public class User {
 
@@ -24,14 +24,9 @@ public class User {
     private String lastname;
     private String contact;
     private String address;
+    private String status = "unverified";
 
-    @ManyToMany
-    @JoinTable(
-            name = "offer",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "property_id")
-    )
-    @Column(name = "status")
+    @OneToMany(mappedBy = "user")
     private List<Property> properties;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,9 +35,10 @@ public class User {
     @JoinColumn
     @BatchSize(size = 5)
     private List<Offer> offer;
-    @ManyToMany
-    private List<Favourites> favourites;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Favourites> favourites;
+//
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.service;
 
 import com.academicproject.moomin.realstates.entity.Offer;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferUpdateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface OfferService {
    Optional<Offer> findById(Long id);
    List<Offer> findAll();
     void update(Long id, Offer offer);
+    public void partialUpdate(Long id, OfferUpdateDto partialOffer);
 }
