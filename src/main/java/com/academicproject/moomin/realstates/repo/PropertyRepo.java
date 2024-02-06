@@ -10,11 +10,19 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Repository
 public interface PropertyRepo extends JpaRepository<Property, Long> {
 
     List<Property> findAll(Specification<Property> specification);
+    @Query("SELECT p FROM Property p LEFT JOIN FETCH p.location WHERE p.featured = true")
+    List<Property> getFeaturedProperty();
+
+
+    @Query("SELECT p FROM Property p ORDER BY p.id DESC")
+    List<Property> findLast8AddedProperties(Pageable pageable);
+
 
 }

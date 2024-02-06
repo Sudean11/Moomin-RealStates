@@ -29,7 +29,8 @@ public class Property {
     private Integer bathroom;
     private Integer bedroom;
     private PropertyTypes propertyTypes;
-    private boolean feature;
+    private boolean featured;
+
 
     @ManyToOne()
     @JsonBackReference

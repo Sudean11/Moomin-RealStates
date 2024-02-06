@@ -16,5 +16,9 @@ public interface PropertyService {
 
     void update(Property property);
 
+    List<Property> getFeaturedProperty();
+
+    List<Property> getRecentProperty();
+
 
 }
