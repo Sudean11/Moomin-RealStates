@@ -1,10 +1,12 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +37,11 @@ public class PropertyController {
     }
 
     @PostMapping
-    public void saveProperty(@RequestBody Property property){
-        propertyService.save(property);
+    public void saveProperty(
+            @ModelAttribute PropertyRequestDto userl
+    ){
+//        propertyService.save(property);
+        System.out.println("hello");
     }
 
     @PutMapping("/{id}")

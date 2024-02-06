@@ -44,6 +44,10 @@ public class User {
 
     @OneToOne
     private Location address;
+    @OneToMany(mappedBy = "user")
+    @JoinColumn(name = "user_id")
+    private List<History> history;
+
 }
 
 
