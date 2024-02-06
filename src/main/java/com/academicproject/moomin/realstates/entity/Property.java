@@ -33,7 +33,6 @@ public class Property {
     private String owner;
 
     @ManyToOne()
-    @JsonBackReference
     private Location location;
 
     @ManyToMany(mappedBy = "properties")

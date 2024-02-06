@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

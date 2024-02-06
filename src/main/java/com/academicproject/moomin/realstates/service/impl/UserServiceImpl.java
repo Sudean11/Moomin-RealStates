@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void deleteById(int id) {
-        userRepo.deleteById(id);
+    public void deleteById(Long id) {
+
     }
     @Override
     public User findById(int id) {
@@ -50,5 +50,15 @@ public class UserServiceImpl implements UserService {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         userRepo.save(user);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
     }
 }

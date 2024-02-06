@@ -53,6 +53,8 @@ public class SecurityConfig {
                     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/users").hasRole("ADMIN");
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/**").permitAll();
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/**").permitAll();
+
                     }
                 })
         ;
