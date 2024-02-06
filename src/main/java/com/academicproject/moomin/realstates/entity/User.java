@@ -23,7 +23,6 @@ public class User {
     private String firstname;
     private String lastname;
     private String contact;
-    private String address;
     private String status = "unverified";
 
     @OneToMany(mappedBy = "user")
@@ -43,6 +42,8 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToOne
+    private Location address;
 }
 
 
