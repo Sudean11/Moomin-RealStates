@@ -34,15 +34,18 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
+
+
     @Override
     public void deleteById(Long id) {
 
     }
+
     @Override
     public User findById(int id) {
-        Optional<User> optionalUser = userRepo.findById(id);
-        return optionalUser.orElse(null); // or handle it differently based on your requirements
+        return null;
     }
+
 
     @Override
     public void saveUser(User user) {
