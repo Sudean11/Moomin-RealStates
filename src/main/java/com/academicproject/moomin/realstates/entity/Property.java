@@ -1,18 +1,14 @@
 package com.academicproject.moomin.realstates.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 
 import java.util.List;
+
 
 
 @Entity
@@ -26,14 +22,20 @@ public class Property {
     private Long id;
     private String name;
     private int price;
-    private String type;
     private String area;
     private String status;
     private String description;
     private String owner;
+    private Integer bathroom;
+    private Integer bedroom;
+
+    @Enumerated(EnumType.STRING)
+    private PropertyTypes propertyTypes;
+
+    private boolean featured;
+
 
     @ManyToOne()
-    @JsonBackReference
     private Location location;
 
     @ManyToOne
@@ -45,6 +47,18 @@ public class Property {
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<Favourites> favourites;
+
+    @OneToOne
+    private Image banner;
+
+    @OneToMany
+    private List<Image> propertyImages;
+
+    public void setBanner(byte[] imageData) {
+        Image image = new Image();
+        image.setData(imageData);
+        this.banner = image;
+    }
 }
 
 
