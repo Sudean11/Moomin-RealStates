@@ -28,7 +28,10 @@ public class Property {
     private String owner;
     private Integer bathroom;
     private Integer bedroom;
+
+    @Enumerated(EnumType.STRING)
     private PropertyTypes propertyTypes;
+
     private boolean featured;
 
 
