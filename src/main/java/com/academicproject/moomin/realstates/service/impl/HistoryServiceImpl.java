@@ -1,21 +1,40 @@
 package com.academicproject.moomin.realstates.service.impl;
 
+import com.academicproject.moomin.realstates.entity.History;
+import com.academicproject.moomin.realstates.repo.HistoryRepo;
+import com.academicproject.moomin.realstates.service.HistoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class HistoryServiceImpl {
-    public void save() {
+public class HistoryServiceImpl implements HistoryService {
+
+    HistoryRepo historyRepo;
+
+    public HistoryServiceImpl(HistoryRepo historyRepo) {
+        this.historyRepo = historyRepo;
     }
 
-    public void update() {
+
+    @Override
+    public List<History> getHistory() {
+        return historyRepo.findAll();
     }
 
-    public void deleteById() {
+    @Override
+    public Optional<History> getHistoryById(Long id) {
+        return historyRepo.findById(id);
     }
 
-    public void findById() {
+    @Override
+    public String saveHistory(History history) {
+        historyRepo.save(history);
+        return "History saved successfully";
     }
 
-    public void findAll() {
-    }
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Offer;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferUpdateDto;
 import com.academicproject.moomin.realstates.service.OfferService;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,11 @@ public class OfferController {
     @DeleteMapping("/{id}")
     public void  deleteOffer(@PathVariable Long id) {
         offerService.deleteById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void patchOffer(@PathVariable Long id, @RequestBody OfferUpdateDto offerUpdates) {
+        offerService.partialUpdate(id, offerUpdates);
     }
 }
 

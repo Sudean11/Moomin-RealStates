@@ -35,14 +35,15 @@ public class Property {
     @ManyToOne()
     private Location location;
 
-    @ManyToMany(mappedBy = "properties")
-    private List<User> users;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
-    @JsonManagedReference
-    @JoinColumn
-    @BatchSize(size = 5)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "property")
     private List<Offer> offers;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<Favourites> favourites;
 }
 
 
