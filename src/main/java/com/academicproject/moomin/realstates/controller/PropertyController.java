@@ -50,4 +50,14 @@ public class PropertyController {
 
 
     }
+
+    @GetMapping("/featured")
+    public List<Property> getFeaturedProperty(){
+        return propertyService.getFeaturedProperty();
+    }
+
+    @GetMapping("/recent")
+    public List<Property> getRecentProperty(){
+        return propertyService.getRecentProperty();
+    }
 }
