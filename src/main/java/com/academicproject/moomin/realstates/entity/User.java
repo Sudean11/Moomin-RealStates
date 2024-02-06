@@ -10,7 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import java.util.List;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "users")
 @Data
 public class User {
 
@@ -24,6 +24,7 @@ public class User {
     private String lastname;
     private String contact;
     private String address;
+    private String status = "unverified";
 
     @OneToMany(mappedBy = "user")
     private List<Property> properties;

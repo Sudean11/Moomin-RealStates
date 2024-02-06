@@ -5,7 +5,7 @@ import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +42,9 @@ public class UserController {
         userService.deleteById(id);
     }
 
-
-
-
+    @PostMapping("/{userId}/verified")
+    public ResponseEntity<User> verifyUser(@PathVariable("userId") int userId) {
+        userService.verifyUser(userId);
+        return ResponseEntity.ok().build();
+    }
 }

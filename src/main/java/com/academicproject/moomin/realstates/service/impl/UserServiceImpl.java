@@ -4,6 +4,7 @@ import com.academicproject.moomin.realstates.entity.User;
 import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.UserService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,5 +61,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    public void verifyUser(int userId) {
+        Optional<User> optionalUser = userRepo.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setStatus("verified");
+            userRepo.save(user);
+        } else {
+            throw new EntityNotFoundException("User not found with ID: " + userId);
+        }
     }
 }
