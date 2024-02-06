@@ -25,17 +25,18 @@ public class User {
     private String contact;
     private String address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Property> properties;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @Fetch(FetchMode.SELECT)
-//    @JsonManagedReference
-//    @JoinColumn
-//    @BatchSize(size = 5)
-//    private List<Offer> offer;
-//    @ManyToMany
-//    private List<Favourites> favourites;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
+    @JsonManagedReference
+    @JoinColumn
+    @BatchSize(size = 5)
+    private List<Offer> offer;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Favourites> favourites;
 //
     @ManyToOne
     @JoinColumn(name = "role_id")

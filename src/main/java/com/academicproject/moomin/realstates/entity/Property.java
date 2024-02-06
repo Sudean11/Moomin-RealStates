@@ -40,8 +40,11 @@ public class Property {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "property")
     private List<Offer> offers;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<Favourites> favourites;
 }
 
 
