@@ -14,7 +14,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Long sender_id;
     private String message;
 
     @ManyToOne

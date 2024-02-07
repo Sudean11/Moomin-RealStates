@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.PropertyTypes;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
@@ -37,13 +38,15 @@ public class PropertyController {
         return propertyService.findById(id);
     }
 
-    @PostMapping
-    public void saveProperty(
-            @ModelAttribute PropertyRequestDto userl
-    ){
+//    @PostMapping
+//    public void saveProperty(@RequestBody Property property){
 //        propertyService.save(property);
-        System.out.println("hello");
-    }
+//        System.out.println("hello");
+//    }
+@PostMapping
+public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto){
+        propertyService.save(propertyRequestDto);
+}
 
     @PutMapping("/{id}")
     public void updateProperty(@RequestBody Property property){
@@ -53,8 +56,6 @@ public class PropertyController {
     @DeleteMapping("/{id}")
     public  void deleteProperty(@PathVariable long id){
         propertyService.deleteById(id);
-
-
     }
 
     @GetMapping("/featured")
@@ -65,5 +66,13 @@ public class PropertyController {
     @GetMapping("/recent")
     public List<Property> getRecentProperty(){
         return propertyService.getRecentProperty();
+    }
+    @GetMapping("/category/{category}")
+    public List<Property> getCategoryProperty(@PathVariable PropertyTypes category) {
+        return propertyService.findByCategory(category);
+    }
+    @GetMapping("/category/{category}/count")
+    public Integer getRecentProperty(@PathVariable PropertyTypes category) {
+        return propertyService.findCount(category);
     }
 }

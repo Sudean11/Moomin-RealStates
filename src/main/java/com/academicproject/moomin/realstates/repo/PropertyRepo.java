@@ -1,14 +1,12 @@
 package com.academicproject.moomin.realstates.repo;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.PropertyTypes;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.awt.print.Pageable;
 import java.util.List;
@@ -24,5 +22,10 @@ public interface PropertyRepo extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p ORDER BY p.id DESC")
     List<Property> findLast8AddedProperties(Pageable pageable);
 
+    @Query("SELECT p FROM Property p WHERE p.propertyTypes = :category")
+    List<Property> findByCategoryWithLocation(@Param("category") PropertyTypes category);
+
+    @Query("SELECT COUNT(p) FROM Property p WHERE p.propertyTypes = :category")
+    Integer countByCategory(@Param("category") PropertyTypes category);
 
 }

@@ -1,27 +1,38 @@
 package com.academicproject.moomin.realstates.service.impl;
 
+import com.academicproject.moomin.realstates.controller.ImageController;
 import com.academicproject.moomin.realstates.entity.Location;
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.PropertyTypes;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 import com.academicproject.moomin.realstates.repo.LocationRepo;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
+    private final ModelMapper modelMapper;
     @Autowired
     PropertyRepo propertyRepo;
     @Autowired
     LocationRepo locationRepo;
-    PropertyServiceImpl(PropertyRepo propertyRepo){
+    private final ImgurService imgurService;
+    @Autowired
+    ImageController imageController;
+    PropertyServiceImpl(PropertyRepo propertyRepo, ImgurService imgurService, ModelMapper modelMapper){
         this.propertyRepo = propertyRepo;
+         this.imgurService = imgurService;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -58,6 +69,46 @@ public class PropertyServiceImpl implements PropertyService {
 
         return propertyRepo.findAll(specification);
     }
+    @Override
+    public void save(PropertyRequestDto propertyDto) {
+        String bannerLink = null;
+        MultipartFile banner = propertyDto.getBanner();
+        if (banner != null && !banner.isEmpty()) {
+            try {
+                byte[] imageData = banner.getBytes();
+                String imgurResponse = imgurService.uploadImage(imageData);
+                bannerLink = imageController.extractImageLink(imgurResponse);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        List<String> imageLinks = new ArrayList<>();
+        List<MultipartFile> propertyImages = propertyDto.getPropertyImages();
+        if (propertyImages != null && !propertyImages.isEmpty()) {
+            for (MultipartFile image : propertyImages) {
+                if (image != null && !image.isEmpty()) {
+                    try {
+                        byte[] imageData = image.getBytes();
+                        String imgurResponse = imgurService.uploadImage(imageData);
+                        String imageLink = imageController.extractImageLink(imgurResponse);
+                        imageLinks.add(imageLink);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        Property property = modelMapper.map(propertyDto, Property.class);
+        property.setBanner(bannerLink);
+        property.setPropertyImages(imageLinks);
+
+        Location location = property.getLocation();
+
+        if (location != null && location.getId() == null) {
+            locationRepo.save(location);
+        }
+    propertyRepo.save(property);
+ }
 
 
 
@@ -80,20 +131,6 @@ public class PropertyServiceImpl implements PropertyService {
         });
     }
 
-    @Override
-    public void save(Property property) {
-        Location location = property.getLocation();
-
-        // Check if the Location is not null and hasn't been saved yet
-        if (location != null && location.getId() == null) {
-            // Save the Location first
-            locationRepo.save(location);
-        }
-
-        // Now you can save the Property
-        propertyRepo.save(property);
-
-    }
 
     @Override
     public void update(Property property) {
@@ -112,10 +149,14 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepo.findLast8AddedProperties((Pageable) PageRequest.of(0, 8));
     }
 
+    @Override
+    public List<Property> findByCategory(PropertyTypes category) {
+    return propertyRepo.findByCategoryWithLocation(category);
+    }
 
-
-
-
-
+    @Override
+    public Integer findCount(PropertyTypes category) {
+        return propertyRepo.countByCategory(category);
+    }
 
 }
