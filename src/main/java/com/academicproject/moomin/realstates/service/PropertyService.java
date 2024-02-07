@@ -2,6 +2,8 @@ package com.academicproject.moomin.realstates.service;
 
 import com.academicproject.moomin.realstates.entity.Property;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
+import com.academicproject.moomin.realstates.entity.PropertyTypes;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +15,7 @@ public interface PropertyService {
 
     void deleteById(Long id);
 
-    void save(Property property);
+    void save(PropertyRequestDto property);
 
     void update(Property property);
 
@@ -23,5 +25,7 @@ public interface PropertyService {
 
     List<PropertyFetchDTO> getTest();
 
+    List<Property> findByCategory(PropertyTypes category);
+    Integer findCount(PropertyTypes category);
 
 }
