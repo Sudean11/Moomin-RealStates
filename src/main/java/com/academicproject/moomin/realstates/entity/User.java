@@ -46,8 +46,6 @@ public class User {
     @OneToOne
     private Location address;
 
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 
     private List<History> history;

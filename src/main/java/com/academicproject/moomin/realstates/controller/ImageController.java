@@ -59,7 +59,7 @@ public class ImageController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private String extractImageLink(String responseBody) throws IOException {
+    public String extractImageLink(String responseBody) throws IOException {
         JsonNode rootNode =  objectMapper.readTree(responseBody);
         JsonNode dataNode = rootNode.get("data");
         if (dataNode != null && dataNode.has("link")) {

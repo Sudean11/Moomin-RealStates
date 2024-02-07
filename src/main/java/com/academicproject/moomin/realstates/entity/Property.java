@@ -48,17 +48,9 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<Favourites> favourites;
 
-    @OneToOne
-    private Image banner;
+    private String banner;
+    private List<String> propertyImages;
 
-    @OneToMany
-    private List<Image> propertyImages;
-
-    public void setBanner(byte[] imageData) {
-        Image image = new Image();
-        image.setData(imageData);
-        this.banner = image;
-    }
 }
 
 
