@@ -26,10 +26,7 @@ public class Location {
     private String zipCode;
     private String address;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "location")
     @JsonIgnore
-    @JoinColumn(name = "location_id")
-    @BatchSize(size = 5)
     private List<Property> properties;
 }

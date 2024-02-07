@@ -2,6 +2,8 @@ package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Property;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
+import com.academicproject.moomin.realstates.helper.ListMapper;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +23,21 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+    @Autowired
+    PropertyRepo propertyRepo;
+
+    @Autowired
+    ListMapper listMapper;
+
     @GetMapping
-    public List<Property> getProperty(
+    public List<PropertyFetchDTO> getProperty(
             @RequestParam(required = false, defaultValue = "") String type,
             @RequestParam(required = false, defaultValue = "") String area,
             @RequestParam(required = false, defaultValue = "") String zip,
             @RequestParam(required = false, defaultValue = "") String state,
             @RequestParam(required = false, defaultValue = "") String city
     ){
-        return propertyService.findAll(type,area,zip,state,city);
+        return propertyService.getTest();
     }
 
     @GetMapping("/{id}")
@@ -53,8 +61,6 @@ public class PropertyController {
     @DeleteMapping("/{id}")
     public  void deleteProperty(@PathVariable long id){
         propertyService.deleteById(id);
-
-
     }
 
     @GetMapping("/featured")

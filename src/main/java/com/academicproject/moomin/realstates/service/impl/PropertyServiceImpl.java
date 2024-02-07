@@ -2,9 +2,12 @@ package com.academicproject.moomin.realstates.service.impl;
 
 import com.academicproject.moomin.realstates.entity.Location;
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
+import com.academicproject.moomin.realstates.helper.ListMapper;
 import com.academicproject.moomin.realstates.repo.LocationRepo;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -112,10 +115,17 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepo.findLast8AddedProperties((Pageable) PageRequest.of(0, 8));
     }
 
+    @Autowired
+    ListMapper listMapper;
 
-
-
-
+    @Autowired
+    ModelMapper modelMapper;
+    @Override
+    public List<PropertyFetchDTO> getTest() {
+        List<Property> a = propertyRepo.getTest();
+        List<PropertyFetchDTO> p = listMapper.mapList(a, new PropertyFetchDTO());
+        return p;
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.service;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ public interface PropertyService {
     List<Property> getFeaturedProperty();
 
     List<Property> getRecentProperty();
+
+    List<PropertyFetchDTO> getTest();
 
 
 }

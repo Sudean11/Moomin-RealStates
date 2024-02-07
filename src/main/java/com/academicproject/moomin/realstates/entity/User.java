@@ -1,5 +1,6 @@
 package com.academicproject.moomin.realstates.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class User {
     private String status = "unverified";
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Property> properties;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -43,7 +45,8 @@ public class User {
     private Role role;
 
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "address_id")
     private Location address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
