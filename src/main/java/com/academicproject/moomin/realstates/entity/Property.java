@@ -50,7 +50,7 @@ public class Property {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<Offer> offers;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)

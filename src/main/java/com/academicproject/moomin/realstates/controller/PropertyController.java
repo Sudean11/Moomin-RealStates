@@ -3,6 +3,7 @@ package com.academicproject.moomin.realstates.controller;
 import com.academicproject.moomin.realstates.entity.Property;
 import com.academicproject.moomin.realstates.entity.PropertyTypes;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import com.academicproject.moomin.realstates.helper.ListMapper;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -83,4 +85,11 @@ public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto)
     public Integer getRecentProperty(@PathVariable PropertyTypes category) {
         return propertyService.findCount(category);
     }
+
+
+    @GetMapping("/category/property-count")
+    public List<Object> fetchPropertyCountDTO(){
+        return propertyService.fetchPropertyCountDTO();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.repo;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import org.hibernate.annotations.BatchSize;
 import com.academicproject.moomin.realstates.entity.PropertyTypes;
@@ -21,7 +22,6 @@ public interface PropertyRepo extends JpaRepository<Property, Long> {
     List<Property> getFeaturedProperty();
 
     @Query("SELECT p FROM Property p join fetch p.location")
-    @BatchSize(size = 5)
     List<Property> getTest();
 
 
@@ -33,5 +33,8 @@ public interface PropertyRepo extends JpaRepository<Property, Long> {
 
     @Query("SELECT COUNT(p) FROM Property p WHERE p.propertyTypes = :category")
     Integer countByCategory(@Param("category") PropertyTypes category);
+
+    @Query("SELECT p.propertyTypes AS propertyType, COUNT(p) AS count FROM Property p GROUP BY p.propertyTypes")
+    List<Object> countPropertyTypes();
 
 }

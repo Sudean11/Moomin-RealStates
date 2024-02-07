@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.service;
 
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import com.academicproject.moomin.realstates.entity.PropertyTypes;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
@@ -27,5 +28,7 @@ public interface PropertyService {
 
     List<Property> findByCategory(PropertyTypes category);
     Integer findCount(PropertyTypes category);
+
+    List<Object> fetchPropertyCountDTO();
 
 }

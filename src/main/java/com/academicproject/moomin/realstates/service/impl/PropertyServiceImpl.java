@@ -3,6 +3,7 @@ package com.academicproject.moomin.realstates.service.impl;
 import com.academicproject.moomin.realstates.controller.ImageController;
 import com.academicproject.moomin.realstates.entity.Location;
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import com.academicproject.moomin.realstates.helper.ListMapper;
 import com.academicproject.moomin.realstates.entity.PropertyTypes;
@@ -23,7 +24,8 @@ import java.util.*;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
-    private final ModelMapper modelMapper;
+    @Autowired
+    ModelMapper modelMapper;
     @Autowired
     PropertyRepo propertyRepo;
     @Autowired
@@ -169,6 +171,11 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Integer findCount(PropertyTypes category) {
         return propertyRepo.countByCategory(category);
+    }
+
+    @Override
+    public List<Object> fetchPropertyCountDTO() {
+        return propertyRepo.countPropertyTypes();
     }
 
 }
