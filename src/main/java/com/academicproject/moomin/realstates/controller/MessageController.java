@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/offer/{offerId}/messages")
+@CrossOrigin(origins = "*")
 public class MessageController {
 
     private final MessageService messageService;

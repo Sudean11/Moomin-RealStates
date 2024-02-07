@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/offer")
+@CrossOrigin(origins = "*")
 public class OfferController {
 
     OfferService offerService;
