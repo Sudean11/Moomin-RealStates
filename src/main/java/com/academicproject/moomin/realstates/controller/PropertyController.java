@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/property")
+@CrossOrigin(origins = "*")
 public class PropertyController {
     PropertyService propertyService;
     @Autowired
@@ -34,7 +35,7 @@ public class PropertyController {
 
     @GetMapping
     public List<Property> getProperty(
-            @RequestParam(required = false, defaultValue = "") String type,
+            @RequestParam(required = false, defaultValue = "") String category,
             @RequestParam(required = false, defaultValue = "") String area,
             @RequestParam(required = false, defaultValue = "") String zip,
             @RequestParam(required = false, defaultValue = "") String state,
@@ -43,7 +44,7 @@ public class PropertyController {
             @RequestParam(required = false, defaultValue = "") String bedRoom,
             @RequestParam(required = false, defaultValue = "") String priceRange
     ){
-        return propertyService.findAll(type,area,zip,state,city, bathRoom, bedRoom, priceRange);
+        return propertyService.findAll(category,area,zip,state,city, bathRoom, bedRoom, priceRange);
     }
 
     @GetMapping("/{id}")
