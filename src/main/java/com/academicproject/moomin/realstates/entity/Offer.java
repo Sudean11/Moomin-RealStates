@@ -36,6 +36,8 @@ public class Offer {
     @Column(name = "sellerstatus")
     private String sellerStatus;
 
+    private String offerMessage;
+
     @OneToMany(mappedBy = "offer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Message> messages;

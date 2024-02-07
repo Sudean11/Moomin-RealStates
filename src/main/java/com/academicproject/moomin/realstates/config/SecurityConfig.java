@@ -51,7 +51,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
                     @Override
                     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/users").hasRole("ADMIN");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll();
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/authenticate").permitAll();
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/**").permitAll();
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/**").permitAll();
 

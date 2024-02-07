@@ -1,9 +1,16 @@
 package com.academicproject.moomin.realstates.service.impl;
 
 import com.academicproject.moomin.realstates.entity.Offer;
+import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.User;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferRequestDTO;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferUpdateDto;
 import com.academicproject.moomin.realstates.repo.OfferRepo;
+import com.academicproject.moomin.realstates.repo.PropertyRepo;
+import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.OfferService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +20,27 @@ import java.util.Optional;
 @Service
 public class OfferServiceImpl implements OfferService {
     OfferRepo offerRepo;
+    @Autowired
+    UserRepo userRepo;
     OfferServiceImpl(OfferRepo offerRepo) {
         this.offerRepo = offerRepo;
     }
 
+    @Autowired
+    PropertyRepo propertyRepo;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
-    public void save(Offer offer) {
-        offerRepo.save(offer);
+    public void save(OfferRequestDTO offer) {
+        User user = userRepo.findById(offer.getUserId()).get();
+        Property property = propertyRepo.findById(offer.getPropertyId()).get();
+        Offer finalOffer = modelMapper.map(offer, Offer.class);
+        finalOffer.setMessages(offer.getMessage());
+        finalOffer.setUser(user);
+        finalOffer.setProperty(property);
+        offerRepo.save(finalOffer);
     }
 
     @Override

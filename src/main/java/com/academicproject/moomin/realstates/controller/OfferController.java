@@ -1,6 +1,7 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Offer;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferRequestDTO;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.OfferUpdateDto;
 import com.academicproject.moomin.realstates.service.OfferService;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/offer")
+@CrossOrigin("*")
 public class OfferController {
 
     OfferService offerService;
@@ -32,7 +34,7 @@ public class OfferController {
 
     // Create a new offer
     @PostMapping
-    public void postOffer(@RequestBody Offer offer) {
+    public void postOffer(@RequestBody OfferRequestDTO offer) {
          offerService.save(offer);
     }
 
