@@ -40,11 +40,11 @@ public class PropertyController {
             @RequestParam(required = false, defaultValue = "") String zip,
             @RequestParam(required = false, defaultValue = "") String state,
             @RequestParam(required = false, defaultValue = "") String city,
-            @RequestParam(required = false, defaultValue = "") String bathRoom,
-            @RequestParam(required = false, defaultValue = "") String bedRoom,
+            @RequestParam(required = false, defaultValue = "") String bathrooms,
+            @RequestParam(required = false, defaultValue = "") String beds,
             @RequestParam(required = false, defaultValue = "") String priceRange
     ){
-        return propertyService.findAll(category,area,zip,state,city, bathRoom, bedRoom, priceRange);
+        return propertyService.findAll(category,area,zip,state,city, bathrooms, beds, priceRange);
     }
 
     @GetMapping("/{id}")
