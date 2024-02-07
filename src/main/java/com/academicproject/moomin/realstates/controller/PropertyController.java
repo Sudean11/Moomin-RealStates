@@ -33,14 +33,17 @@ public class PropertyController {
     ListMapper listMapper;
 
     @GetMapping
-    public List<PropertyFetchDTO> getProperty(
+    public List<Property> getProperty(
             @RequestParam(required = false, defaultValue = "") String type,
             @RequestParam(required = false, defaultValue = "") String area,
             @RequestParam(required = false, defaultValue = "") String zip,
             @RequestParam(required = false, defaultValue = "") String state,
-            @RequestParam(required = false, defaultValue = "") String city
+            @RequestParam(required = false, defaultValue = "") String city,
+            @RequestParam(required = false, defaultValue = "") String bathRoom,
+            @RequestParam(required = false, defaultValue = "") String bedRoom,
+            @RequestParam(required = false, defaultValue = "") String priceRange
     ){
-        return propertyService.getTest();
+        return propertyService.findAll(type,area,zip,state,city, bathRoom, bedRoom, priceRange);
     }
 
     @GetMapping("/{id}")
@@ -48,15 +51,10 @@ public class PropertyController {
         return propertyService.findById(id);
     }
 
-//    @PostMapping
-//    public void saveProperty(@RequestBody Property property){
-//        propertyService.save(property);
-//        System.out.println("hello");
-//    }
-@PostMapping
-public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto){
-        propertyService.save(propertyRequestDto);
-}
+    @PostMapping
+    public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto){
+            propertyService.save(propertyRequestDto);
+    }
 
     @PutMapping("/{id}")
     public void updateProperty(@RequestBody Property property){
@@ -85,8 +83,6 @@ public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto)
     public Integer getRecentProperty(@PathVariable PropertyTypes category) {
         return propertyService.findCount(category);
     }
-
-
     @GetMapping("/category/property-count")
     public List<Object> fetchPropertyCountDTO(){
         return propertyService.fetchPropertyCountDTO();

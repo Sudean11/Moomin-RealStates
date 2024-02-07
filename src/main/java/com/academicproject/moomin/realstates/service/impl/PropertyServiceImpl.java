@@ -40,12 +40,12 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
 
-    public List<Property> findAll(String type, String area, String zip, String state, String city) {
+    public List<Property> findAll(String type, String area, String zip, String state, String city, String bathRoom, String bedRoom, String priceRange) {
         Specification<Property> specification = Specification.where(null);
 
         if (!type.isEmpty()) {
             specification = specification.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("type"), "%" + type + "%"));
+                    criteriaBuilder.equal(root.get("propertyTypes"), type));
         }
 
         if (!area.isEmpty()) {
@@ -66,8 +66,24 @@ public class PropertyServiceImpl implements PropertyService {
         if (!city.isEmpty()) {
             specification = specification.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get("location").get("city"), "%" + city + "%"));
-            System.out.println(specification);
+        }
 
+        if (!bathRoom.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("bathroom"),  bathRoom ));
+        }
+
+        if (!bedRoom.isEmpty()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("bedroom"), bedRoom ));
+        }
+
+        if (!priceRange.isEmpty()) {
+            String[] prices = priceRange.split("-");
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThan(root.get("price"), prices[0]));
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThan(root.get("price"), prices[1]));
         }
 
 

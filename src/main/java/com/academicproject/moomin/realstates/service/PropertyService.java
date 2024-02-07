@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PropertyService {
-    List<Property> findAll(String type, String area, String zip, String state, String city);
+    List<Property> findAll(String type, String area, String zip, String state, String city, String bathRoom, String bedRoom, String priceRange);
 
     Optional<Property> findById(Long id);
 
