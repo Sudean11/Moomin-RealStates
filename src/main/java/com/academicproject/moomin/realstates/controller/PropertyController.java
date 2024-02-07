@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/property")
+@CrossOrigin(origins = "*")
 public class PropertyController {
     PropertyService propertyService;
     @Autowired
