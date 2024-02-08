@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/property")
@@ -32,6 +33,14 @@ public class PropertyController {
 
     @Autowired
     ListMapper listMapper;
+
+    @GetMapping("/user")
+    public List<Property> getPropertyByEmail(
+            @RequestParam String email
+    ){
+        return propertyService.getPropertyByEmail(email);
+    }
+
 
     @GetMapping
     public List<Property> getProperty(
@@ -52,6 +61,14 @@ public class PropertyController {
         return propertyService.findById(id);
     }
 
+
+    @PostMapping("/{id}/cancel-contingency")
+    public void cancelContingency(@PathVariable Long id){
+        Property property = propertyRepo.findById(id).get();
+        property.setStatus("AVAILABLE");
+        propertyRepo.save(property);
+    }
+
     @PostMapping
     public void saveProperty( @ModelAttribute PropertyRequestDto propertyRequestDto){
             propertyService.save(propertyRequestDto);
@@ -64,6 +81,11 @@ public class PropertyController {
 
     @DeleteMapping("/{id}")
     public  void deleteProperty(@PathVariable long id){
+        propertyService.deleteById(id);
+    }
+
+    @PostMapping("/{id}/delete")
+    public void deletePropertyById(@PathVariable long id){
         propertyService.deleteById(id);
     }
 

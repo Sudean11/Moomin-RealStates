@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/offer/{offerId}/messages")
+@RequestMapping("/api/v1/message")
+@CrossOrigin(origins = "*")
 public class MessageController {
 
     private final MessageService messageService;
@@ -27,6 +28,8 @@ public class MessageController {
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Message> getMessageById(@PathVariable("id") Long id) {
         Optional<Message> messageOptional = messageService.findById(id);
@@ -35,9 +38,9 @@ public class MessageController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Message>> getAllMessagesByOfferId(@PathVariable("offerId") Long offerId) {
+    public ResponseEntity<List<Message>> getAllMessagesByOfferId(@RequestParam String email) {
         // Here you can use offerId to fetch messages specific to the offer
-        List<Message> messages = messageService.findAllByOfferId(offerId);
+        List<Message> messages = messageService.findAllByEmail(email);
         return ResponseEntity.ok().body(messages);
     }
 

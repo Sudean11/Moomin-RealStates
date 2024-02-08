@@ -10,5 +10,8 @@ public interface MessageService {
     void deleteById(Long id);
     Optional<Message> findById(Long id);
     List<Message> findAll();
-    List<Message> findAllByOfferId(Long offerId);
+    List<Message> findAllByEmail(String email);
+
+
+
 }

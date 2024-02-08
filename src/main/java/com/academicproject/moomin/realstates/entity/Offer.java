@@ -13,18 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "property_id")
-    @JsonIgnore
     private Property property;
 
     @Column(name = "status")
@@ -35,6 +34,8 @@ public class Offer {
 
     @Column(name = "sellerstatus")
     private String sellerStatus;
+
+    private double price;
 
     private String offerMessage;
 

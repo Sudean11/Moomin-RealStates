@@ -1,7 +1,12 @@
 package com.academicproject.moomin.realstates.service.impl;
 
 import com.academicproject.moomin.realstates.entity.Favourites;
+import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.User;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.FavouriteDto;
 import com.academicproject.moomin.realstates.repo.FavouritesRepo;
+import com.academicproject.moomin.realstates.repo.PropertyRepo;
+import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.FavouritesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +22,20 @@ public class FavouritesServiceImpl implements FavouritesService {
         this.favouritesRepo = favouritesRepo;
     }
 
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    PropertyRepo propertyRepo;
+
     @Override
-    public Favourites saveFavourite(Favourites favourites) {
-        return favouritesRepo.save(favourites);
+    public Favourites saveFavourite(FavouriteDto favourites) {
+        User user = userRepo.findByEmail(favourites.getEmail());
+        Property property = propertyRepo.findById(favourites.getPropertyId()).get();
+        Favourites favourites1 = new Favourites();
+        favourites1.setUser(user);
+        favourites1.setProperty(property);
+        return favouritesRepo.save(favourites1);
     }
 
     @Override

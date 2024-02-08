@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface PropertyService {
     List<Property> findAll(String type, String area, String zip, String state, String city, String bathRoom, String bedRoom, String priceRange);
 
+    List<Property> getPropertyByEmail(String email);
+
     Optional<Property> findById(Long id);
 
     void deleteById(Long id);

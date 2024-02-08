@@ -34,10 +34,11 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public void save(OfferRequestDTO offer) {
-        User user = userRepo.findById(offer.getUserId()).get();
+        User user = userRepo.findByEmail(offer.getEmail());
         Property property = propertyRepo.findById(offer.getPropertyId()).get();
-        Offer finalOffer = modelMapper.map(offer, Offer.class);
-        finalOffer.setMessages(offer.getMessage());
+        Offer finalOffer = new Offer();
+        finalOffer.setOfferMessage(offer.getMessage());
+        finalOffer.setPrice(offer.getPrice());
         finalOffer.setUser(user);
         finalOffer.setProperty(property);
         offerRepo.save(finalOffer);
@@ -65,6 +66,15 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public List<Offer> findOffersByEmail(String email, boolean customer) {
+        if(customer){
+            return offerRepo.findAllByEmailCustomer(email);
+        }
+        List<Offer> offers = offerRepo.findAllByEmail(email);
+        return offers;
+    }
+
+    @Override
     public void partialUpdate(Long id, OfferUpdateDto partialOffer) {
         Optional<Offer> optionalOffer = offerRepo.findById(id);
         if (optionalOffer.isPresent()) {
@@ -79,5 +89,10 @@ public class OfferServiceImpl implements OfferService {
         } else {
             throw new NoSuchElementException("Offer with ID " + id + " not found");
         }
+    }
+
+    @Override
+    public List<Offer> getOfferHistory(String email) {
+        return offerRepo.getOfferhistory(email);
     }
 }

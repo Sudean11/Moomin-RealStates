@@ -38,15 +38,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> findAllByOfferId(Long offerId) {
-        Optional<Offer> optionalOffer = offerRepo.findById(offerId);
-        if (optionalOffer.isPresent()) {
-            Offer offer = optionalOffer.get();
-            List<Message> messages = offer.getMessages();
-            return messages;
-        } else {
-            throw new IllegalArgumentException("Offer not found for ID: " + offerId);
-        }
+    public List<Message> findAllByEmail(String email) {
+       return  messageRepo.findAllByEmail(email);
     }
 
     @Override

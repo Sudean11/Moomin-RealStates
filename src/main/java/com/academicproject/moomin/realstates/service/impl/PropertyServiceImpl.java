@@ -3,6 +3,7 @@ package com.academicproject.moomin.realstates.service.impl;
 import com.academicproject.moomin.realstates.controller.ImageController;
 import com.academicproject.moomin.realstates.entity.Location;
 import com.academicproject.moomin.realstates.entity.Property;
+import com.academicproject.moomin.realstates.entity.User;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import com.academicproject.moomin.realstates.helper.ListMapper;
@@ -10,6 +11,7 @@ import com.academicproject.moomin.realstates.entity.PropertyTypes;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 import com.academicproject.moomin.realstates.repo.LocationRepo;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
+import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class PropertyServiceImpl implements PropertyService {
     PropertyRepo propertyRepo;
     @Autowired
     LocationRepo locationRepo;
+    @Autowired
+    UserRepo userRepo;
     private final ImgurService imgurService;
     @Autowired
     ImageController imageController;
@@ -86,7 +90,6 @@ public class PropertyServiceImpl implements PropertyService {
                     criteriaBuilder.lessThan(root.get("price"), prices[1]));
         }
 
-
         return propertyRepo.findAll(specification);
     }
     @Override
@@ -122,15 +125,23 @@ public class PropertyServiceImpl implements PropertyService {
         property.setBanner(bannerLink);
         property.setPropertyImages(imageLinks);
 
-        Location location = property.getLocation();
+        User user = userRepo.findByEmail(propertyDto.getEmail());
+        property.setUser(user);
 
-        if (location != null && location.getId() == null) {
-            locationRepo.save(location);
-        }
-    propertyRepo.save(property);
+        Location location = locationRepo.findById(10L).get();
+        property.setLocation(location);
+        propertyRepo.save(property);
  }
 
 
+
+
+
+    @Override
+    public List<Property> getPropertyByEmail(String email) {
+        User user = userRepo.findByEmail(email);
+        return user.getProperties();
+    }
 
     @Override
     public Optional<Property> findById(Long id) {

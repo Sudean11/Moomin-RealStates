@@ -19,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int user_id;
+    @Column(unique = true)
     private String email;
     private String password;
     private String firstname;
@@ -41,6 +42,7 @@ public class User {
     private List<Favourites> favourites;
 //
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "role_id")
     private Role role;
 

@@ -15,5 +15,9 @@ public interface OfferService {
    Optional<Offer> findById(Long id);
    List<Offer> findAll();
     void update(Long id, Offer offer);
+
+    List<Offer> findOffersByEmail(String email, boolean customer);
     public void partialUpdate(Long id, OfferUpdateDto partialOffer);
+
+    List<Offer> getOfferHistory(String email);
 }

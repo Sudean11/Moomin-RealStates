@@ -48,7 +48,8 @@ public class Property {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Offer> offers;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)

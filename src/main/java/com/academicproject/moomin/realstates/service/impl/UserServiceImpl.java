@@ -1,6 +1,11 @@
 package com.academicproject.moomin.realstates.service.impl;
 
+import com.academicproject.moomin.realstates.entity.Location;
+import com.academicproject.moomin.realstates.entity.Role;
 import com.academicproject.moomin.realstates.entity.User;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.UserDto;
+import com.academicproject.moomin.realstates.repo.LocationRepo;
+import com.academicproject.moomin.realstates.repo.RoleRepo;
 import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.UserService;
 import jakarta.persistence.EntityManager;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,9 +36,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll(Boolean unverified) {
+        if(unverified){
+            return userRepo.findAll().stream()
+                    .filter(x->x.getStatus().equals("unverified"))
+                    .filter(x->x.getRole().getRole().equals("OWNER"))
+                    .collect(Collectors.toList());
+        }
         return userRepo.findAll();
     }
+
+
 
 
 
@@ -47,11 +61,35 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Autowired
+    RoleRepo roleRepo;
+
+    @Autowired
+    LocationRepo locationRepo;
+
     @Override
-    public void saveUser(User user) {
+    public void saveUser(UserDto user) {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        userRepo.save(user);
+        User newUser = new User();
+
+        newUser.setFirstname(user.getFirstName());
+        newUser.setLastname(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setContact(user.getPhoneNumber());
+
+        Location location = locationRepo.findById(5L).get();
+        newUser.setAddress(location);
+        Role role;
+        if(user.getUserType().equals("buyer")){
+            role = roleRepo.findById(3).get();
+        }else{
+            role = roleRepo.findById(1).get();
+        }
+        newUser.setAddress(location);
+        newUser.setRole(role);
+        userRepo.save(newUser);
     }
 
     @Override
