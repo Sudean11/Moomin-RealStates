@@ -52,11 +52,20 @@ public class Property {
     @JsonIgnore
     private List<Offer> offers;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Favourites> favourites;
 
     private String banner;
     private List<String> propertyImages;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + name + '\'' +
+                ", email='" + status + '\'' +
+                '}';
+    }
 
 }
 

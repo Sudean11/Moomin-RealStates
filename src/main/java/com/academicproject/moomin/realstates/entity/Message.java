@@ -16,6 +16,7 @@ public class Message {
     private Long id;
     private Long sender_id;
     private String message;
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "offer_id")

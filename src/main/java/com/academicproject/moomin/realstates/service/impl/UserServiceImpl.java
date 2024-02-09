@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,8 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(user.getPassword());
         newUser.setContact(user.getPhoneNumber());
 
-        Location location = locationRepo.findById(5L).get();
+
+        Location location = locationRepo.findById(6L).get();
         newUser.setAddress(location);
         Role role;
         if(user.getUserType().equals("buyer")){

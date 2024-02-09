@@ -53,8 +53,12 @@ public class SecurityConfig {
                     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll();
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/authenticate").permitAll();
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/**").permitAll();
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/**").permitAll();
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/users/{userId}/approve").hasRole("ADMIN");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/offer").hasAnyRole("CUSTOMER", "OWNER");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/api/v1/users?unverified=true").hasRole("ADMIN");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/property/user").hasRole("OWNER");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/property/:id/delete").hasAnyRole("OWNER","ADMIN");
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/message/**").permitAll();
 
                     }
                 })
