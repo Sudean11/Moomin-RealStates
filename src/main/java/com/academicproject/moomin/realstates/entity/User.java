@@ -36,9 +36,11 @@ public class User {
     @JsonManagedReference
     @JoinColumn
     @BatchSize(size = 5)
+    @JsonIgnore
     private List<Offer> offer;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Favourites> favourites;
 //
     @ManyToOne
@@ -48,11 +50,22 @@ public class User {
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "address_id")
     private Location address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<History> history;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + user_id +
+                ", username='" + email + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 
 }
 

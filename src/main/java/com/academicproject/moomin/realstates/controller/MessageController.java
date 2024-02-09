@@ -1,6 +1,12 @@
 package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Message;
+import com.academicproject.moomin.realstates.entity.Offer;
+import com.academicproject.moomin.realstates.entity.User;
+import com.academicproject.moomin.realstates.entity.dtos.requestDto.MessageDto;
+import com.academicproject.moomin.realstates.repo.MessageRepo;
+import com.academicproject.moomin.realstates.repo.OfferRepo;
+import com.academicproject.moomin.realstates.repo.UserRepo;
 import com.academicproject.moomin.realstates.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +28,22 @@ public class MessageController {
         this.messageService = messageService;
     }
 
+    @Autowired
+    MessageRepo messageRepo;
+
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    OfferRepo offerRepo;
     @PostMapping
-    public ResponseEntity<Message> createMessage(@PathVariable("offerId") Long offerId, @RequestBody Message message) {
-        messageService.save(message,offerId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    public void createMessage( @RequestBody MessageDto message) {
+        Message message1 = new Message();
+        Offer offer = offerRepo.findById(message.getOfferId()).get();
+        message1.setMessage(message.getMessage());
+        message1.setEmail(message.getEmail());
+        message1.setOffer(offer);
+        messageRepo.save(message1);
     }
 
 

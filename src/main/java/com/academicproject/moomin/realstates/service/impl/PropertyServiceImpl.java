@@ -124,7 +124,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = modelMapper.map(propertyDto, Property.class);
         property.setBanner(bannerLink);
         property.setPropertyImages(imageLinks);
-
+        property.setStatus("Available");
         User user = userRepo.findByEmail(propertyDto.getEmail());
         property.setUser(user);
 
