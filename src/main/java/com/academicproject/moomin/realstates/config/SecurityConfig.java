@@ -58,7 +58,8 @@ public class SecurityConfig {
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/api/v1/users?unverified=true").hasRole("ADMIN");
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/property/user").hasRole("OWNER");
                         authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/property/:id/delete").hasAnyRole("OWNER","ADMIN");
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/message/**").permitAll();
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll();
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll();
 
                     }
                 })
