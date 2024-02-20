@@ -2,12 +2,16 @@ package com.academicproject.moomin.realstates.controller;
 
 import com.academicproject.moomin.realstates.entity.Property;
 import com.academicproject.moomin.realstates.entity.PropertyTypes;
+import com.academicproject.moomin.realstates.entity.dtos.kafkaDto.EmailObject;
 import com.academicproject.moomin.realstates.entity.dtos.requestDto.PropertyRequestDto;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyCountDTO;
 import com.academicproject.moomin.realstates.entity.dtos.responseDto.PropertyFetchDTO;
 import com.academicproject.moomin.realstates.helper.ListMapper;
+import com.academicproject.moomin.realstates.helper.MessageProducer;
 import com.academicproject.moomin.realstates.repo.PropertyRepo;
 import com.academicproject.moomin.realstates.service.PropertyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +37,18 @@ public class PropertyController {
 
     @Autowired
     ListMapper listMapper;
+
+
+
+    @Autowired
+    private MessageProducer messageProducer;
+
+    @GetMapping("/kafka")
+    public void kafkaProducer() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String emailObjectJsonString = mapper.writeValueAsString(new EmailObject("name", "subject", "description"));
+        messageProducer.sendMessage("topic", emailObjectJsonString);
+    }
 
     @GetMapping("/user")
     public List<Property> getPropertyByEmail(
