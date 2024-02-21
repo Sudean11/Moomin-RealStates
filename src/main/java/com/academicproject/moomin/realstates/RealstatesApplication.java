@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class RealstatesApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("javax.net.ssl.checkServerIdentity", "false");
 		SpringApplication.run(RealstatesApplication.class, args);
 	}
 	@Bean
@@ -47,8 +48,7 @@ public class RealstatesApplication {
 		ObjectMapper mapper = new ObjectMapper();
 		EmailObject emailObject = mapper.readValue(message, EmailObject.class);
 		System.out.println("Received message: " + emailObject.getEmail()+" "+ emailObject.getDescription());
-
-
 	}
+
 
 }
