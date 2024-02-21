@@ -1,5 +1,7 @@
 package com.academicproject.moomin.realstates.controller;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import com.academicproject.moomin.realstates.entity.ElasticProduct;
@@ -17,15 +19,20 @@ import com.academicproject.moomin.realstates.service.PropertyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.apache.lucene.index.Term;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.query.SearchTemplateQuery;
 import org.springframework.data.elasticsearch.core.query.SearchTemplateQueryBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,8 +56,8 @@ public class PropertyController {
     @Autowired
     private MessageProducer messageProducer;
 
-//    @Autowired
-//    ElasticRepo elasticRepo;
+    @Autowired
+    ElasticRepo elasticRepo;
 
 
 
@@ -62,11 +69,27 @@ public class PropertyController {
     }
 
 
+    @Autowired
+    ElasticsearchClient elasticsearchClient;
 
-//    @GetMapping("/elastic")
-//    public List<ElasticProduct> elasticSearch(){
-//        return elasticRepo.findByNameOrDescriptionContaining("aayush", "aayush");
-//    }
+    @GetMapping("/elastic/{searchText}")
+    public List<ElasticProduct> elasticSearch(@PathVariable String searchText) throws IOException {
+        Supplier<Query> supplier =()->Query.of(q->q.fuzzy(createFuzzyQuery(searchText)));
+//        SearchResponse response = elasticsearchClient.search(s -> s
+//                .index("product")
+//                .query(createFuzzyQuery(searchText)) // Directly pass the created SearchQuery
+//        );
+
+
+        return  null;
+    }
+
+
+
+    public static co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery createFuzzyQuery(String approx){
+        val fuzzyQuery =  new FuzzyQuery.Builder();
+        return fuzzyQuery.field("name").value(approx).build();
+    }
 
     @GetMapping("/user")
     public List<Property> getPropertyByEmail(

@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-@Document(indexName = "search-by-name")
+@Document(indexName = "products")
 public class ElasticProduct {
 
         @Id
