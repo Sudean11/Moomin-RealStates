@@ -1,6 +1,5 @@
 package com.academicproject.moomin.realstates;
 
-import com.academicproject.moomin.realstates.entity.dtos.kafkaDto.EmailObject;
 import com.academicproject.moomin.realstates.service.impl.ImgurService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,8 +31,8 @@ public class RealstatesApplication {
 		return new RestTemplate();
 	}
 
-	@Autowired
-	private KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory;
+//	@Autowired
+//	private KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory;
 
 //	@Bean
 //	public ConcurrentMessageListenerContainer<String, String> createContainer(ConsumerFactory<String, String> consumerFactory) {
@@ -43,12 +42,12 @@ public class RealstatesApplication {
 //		return container;
 //	}
 
-	@KafkaListener(topics = "topic", groupId = "my-group-id") // Matches container configuration
-	public void consume(String message) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		EmailObject emailObject = mapper.readValue(message, EmailObject.class);
-		System.out.println("Received message: " + emailObject.getEmail()+" "+ emailObject.getDescription());
-	}
+//	@KafkaListener(topics = "topic", groupId = "my-group-id") // Matches container configuration
+//	public void consume(String message) throws JsonProcessingException {
+//		ObjectMapper mapper = new ObjectMapper();
+//		EmailObject emailObject = mapper.readValue(message, EmailObject.class);
+//		System.out.println("Received message: " + emailObject.getEmail()+" "+ emailObject.getDescription());
+//	}
 
 
 }
